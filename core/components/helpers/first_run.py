@@ -17,11 +17,6 @@ AWS_SES_REGION_NAME="us-west-2"
 AWS_SES_REGION_ENDPOINT="email.us-west-2.amazonaws.com"
 SERVER_EMAIL="youremail@yourcompany.com"
 
-AWS_S3_REGION_NAME="eu-west-2"
-AWS_STORAGE_BUCKET_NAME="your_aws_s3_bucket"
-AWS_S3_ADDRESSING_STYLE="virtual"
-AWS_S3_SIGNATURE_VERSION="s3v4"
-
 '''
 
 def create_default_file():

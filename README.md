@@ -2,7 +2,7 @@
 # Security Groups Webstack by Pulsely
 
 __Security Groups Webstack__ is a Django powered webstack solution developed by [Pulsely](https://www.pulsely.com/). 
-__Security Groups Webstack__ implements a two-sided market for jobseekers and employers.
+__Security Groups Webstack__ let you control the access of a specific Security Group in an Amazon Web Services Virtual Private Network.
 
 ---
 
@@ -81,16 +81,17 @@ The Security Groups Webstack has a default DockerFile which will run with Docker
 
 These settings are stored at the ``.env`` file and can be overwriten at the default Django settings at ```jobhunting/settings_customized.py``` which should be created on first run.
 
-| **Varaiable** | **Description**                                                | **Defaults**                           |
-| ------------- |----------------------------------------------------------------|----------------------------------------|
-| ``SECRET_KEY`` | The secret key for Django user authentication                  | ``Random key generated automatically`` |
-| ``DEBUG``          | Django DEBUG mode for development. Set to false for deployment | ``true``                               |
-| ``ALLOWED_HOSTS``   | Host/domain names that this Django site can serve.             | ``*``                                  |
-| ``SERVER_PRODUCTION_HOSTNAME`` | Server production name                                         | ``jobhunting.local``                   |
-| ``EMAIL_BACKEND`` | The default E-mail backend, set to django-ses for AWS deployment            | ``django_ses.SESBackend``              |
-| ``AWS_SES_REGION_NAME`` | Default AWS SES region Name                                                 | ``us-west-2``                          |
-| ``AWS_SES_REGION_ENDPOINT`` | Default AWS SES region endpoint                                             | ``email.us-west-2.amazonaws.com``      |
-| ``SERVER_EMAIL`` | E-mail for sending the notification emails                                  |                                        |
+| **Varaiable** | **Description**                                                  | **Defaults**                           |
+| ------------- |------------------------------------------------------------------|----------------------------------------|
+| ``SECRET_KEY`` | The secret key for Django user authentication                    | ``Random key generated automatically`` |
+| ``DEBUG``          | Django DEBUG mode for development. Set to false for deployment   | ``true``                               |
+| ``ALLOWED_HOSTS``   | Host/domain names that this Django site can serve.               | ``*``                                  |
+| ``AWS_REGION_SECURITY_GROUP`` | **AWS Region of the Security Group**                             | ``ap-northeast-1``                     |
+| ``AWS_EC2_SECURITY_GROUP`` | **The Security Group ID**                                        | ``sg-xxxxxxxxxx``                      |
+| ``EMAIL_BACKEND`` | The default E-mail backend, set to django-ses for AWS deployment | ``django_ses.SESBackend``              |
+| ``AWS_SES_REGION_NAME`` | Default AWS SES region Name                                      | ``us-west-2``                          |
+| ``AWS_SES_REGION_ENDPOINT`` | Default AWS SES region endpoint                                  | ``email.us-west-2.amazonaws.com``      |
+| ``SERVER_EMAIL`` | E-mail for sending the notification emails                       |                                        |
 
 [//]: # (| ``SLACK_TOKEN`` | Slack Team Token                                                            |                                                                                      |)
 
@@ -164,7 +165,6 @@ This project utilizes the following components:
   Copyright (c) Django Software Foundation and individual contributors.   
   All rights reserved.   
   https://www.djangoproject.com/  
-
 
 * __Django SES__
   Copyright (c) 2011 Harry Marr  
