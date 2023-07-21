@@ -1,0 +1,337 @@
+{% extends "designs/coreui.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% load humanize %}
+{% block content %}
+
+
+    <!-- content -->
+
+    <div class="row mb-3" id="app">
+        <div class="col-12">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fa fa-align-justify"></i> Security Groups {{ the_security_group }}
+                </div>
+                <div class="card-body pb-0">
+                    {% for s in security_group_description.SecurityGroups %}
+                        <table class="table mb-35">
+                            <thead>
+                            <tr>
+                                <th>GroupName</th>
+                                <th>Description</th>
+                                <th>VPC ID</th>
+                                <th>Group ID</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{ s.GroupName }}</td>
+                                <td>{{ s.Description }}</td>
+                                <td>{{ s.VpcId }}</td>
+                                <td>{{ s.GroupId }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    {% endfor %}
+
+                    {% for s in security_group_description.SecurityGroups %}
+                        {#                <table class="table   ">#}
+                        {#                    <thead>#}
+                        {#                    <tr>#}
+                        {#                        <th>GroupName</th>#}
+                        {#                        <th>Description</th>#}
+                        {#                        <th>VPC ID</th>#}
+                        {#                        <th>Group ID</th>#}
+                        {#                    </tr>#}
+                        {#                    </thead>#}
+                        {#                    <tr>#}
+                        {#                        <td>{{ s.GroupName }}</td>#}
+                        {#                        <td>{{ s.Description }}</td>#}
+                        {#                        <td>{{ s.VpcId }}</td>#}
+                        {#                        <td>{{ s.GroupId }}</td>#}
+                        {#                    </tr>#}
+                        {#                </table>#}
+
+                        <table class="table ">
+                            <thead>
+
+                            <tr>
+                                <th>IP Ranges</th>
+                                <th>From Port</th>
+                                <th>To Port</th>
+                                <th>IP Protocol</th>
+                                <th>Ipv6Ranges</th>
+
+                            </tr>
+                            </thead>
+                            {% for p in s.IpPermissions %}
+                                <tr valign="top">
+                                    <td>{% for ip_range in p.IpRanges %}
+                                        {{ ip_range.CidrIp }}{% if not forloop.last %}<br/>{% endif %}
+                                    {% endfor %}
+                                    </td>
+                                    <td>{{ p.FromPort }}</td>
+                                    <td>{{ p.ToPort }}</td>
+                                    <td>{{ p.IpProtocol }}</td>
+                                    <td>
+                                        {% for ip_range in p.Ipv6Ranges %}
+                                            {{ ip_range.CidrIpv6 }}
+                                        {% endfor %}
+                                    </td>
+
+                                </tr>
+                            {% endfor %}
+
+                        </table>
+
+
+                    {% endfor %}
+                </div>
+            </div>
+            <form method="POST" action="." class="form-horizontal no-margin ">
+                {% csrf_token %}
+
+                <div class="card">
+                    <div class="card-header">
+                        <strong>Add IP Address Range </strong>
+                        <small>{{ the_security_group }}</small>
+                    </div>
+                    <div class="card-body">
+                        {% if form.errors %}
+                            <span style="color: #ff8800; font-weight: bold;">{{ form.errors }}</span>
+                        {% endif %}
+
+                        {% if result_msg %}
+                            <span style="color: #ff8800; font-weight: bold;">
+                            {{ result_msg }}
+                            </span>
+                        {% endif %}
+
+
+                        <div class="row">
+
+                            <div class="col-8">
+
+                                <div class="form-group {% if form.errors.ip_address %} has-error{% endif %}">
+                                    <label for="name">IP Address</label>
+                                    {{ form.ip_address }}
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+
+                                <div class="form-group">
+                                    <label for="name">CIDR</label>
+                                    {{ form.cidr_block }}
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="row mt-3">
+
+                            <div class="col-8">
+
+                                <div class="form-group {% if form.errors.port %} has-error{% endif %}">
+                                    <label for="name">Port</label>
+                                    {{ form.port }}
+                                </div>
+
+                            </div>
+                            <div class="col-4">
+
+                                <div class="form-group {% if form.errors.ip_protocol %} has-error{% endif %}">
+                                    <label for="name">IP Protocol</label>
+                                    {{ form.ip_protocol }}
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-8">
+
+                                <button type="submit" class="btn btn-sm btn-success"><i class="fa-solid fa-plus"></i>
+                                    Add IP Address Range
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block postflight %}
+    <script language="JavaScript">
+
+        axios.defaults.xsrfCookieName = 'csrftoken';
+        axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+        Vue.mixin({
+            delimiters: ['[[', ']]']
+        });
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                message: "Ready",
+                objects: [],
+                flag_loading: false,
+            },
+            methods: {
+                unixtime_to_locale(str) {
+                    var dt = LuxonDateTime.fromMillis(str * 1000).toFormat('dd LLL, yyyy HH:mm:ss');
+                    return dt;
+                },
+                humanize_seconds(str) {
+                    return moment.duration(str - Math.floor(Date.now() / 1000), "seconds").humanize(true);
+                },
+
+                buttonClassForStatus(label) {
+                    if (label == "normal") {
+                        return 'd-block btn btn-success btn-sm text-white';
+                    } else if (label == "checking") {
+                        return 'd-block btn btn-warning btn-sm text-white';
+                    } else {
+                        return 'd-block btn btn-danger btn-sm text-white';
+                    }
+                },
+                loadObjects() {
+                    this.flag_loading = true;
+                    const data = {};
+
+                    // trigger the "init" operations on server side
+
+                    {% comment %}
+                    axios.post("{% url 'panel:api_uptime_list' %}", data).then((res) => {
+                        if (res.data && res.data.status) {
+                            if (res.data.status == 'okay') {
+                                this.objects = res.data.objects;
+                                //this.paginator = res.data.paginator;
+
+                                this.flag_loading = false;
+
+                            }
+                        }
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+
+                    {% endcomment %}
+                },
+                triggerAllhost: function (event) {
+                    {% comment %}
+                    const posData = {
+                        mode: 'all'
+                    };
+
+                    // trigger the "init" operations on server side
+                    axios.post("{% url 'panel:api_trigger_refresh' %}", posData).then((res) => {
+
+                        if (('status' in res.data) && (res.data.status == 'okay')) {
+                            /*
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Oops...',
+                                text: res.data.message, timer: 3000
+                            })*/
+                            this.loadObjects();
+
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 10000);
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 20000);
+
+                        }
+                        if ('error' in res.data) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: res.data.error, timer: 3000
+                            })
+                        }
+
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+                        })
+                    })
+                    {% endcomment %}
+                },
+
+                triggerSingleHost: function (event, host_id) {
+                    {% comment %}
+                    const posData = {
+                        host_id: host_id,
+                        mode: 'single'
+                    };
+
+                    // trigger the "init" operations on server side
+                    axios.post("{% url 'panel:api_trigger_refresh' %}", posData).then((res) => {
+
+                        if (('status' in res.data) && (res.data.status == 'okay')) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Oops...',
+                                text: res.data.message, timer: 3000
+                            })
+
+                            this.loadObjects();
+
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 10000);
+                            setTimeout(() => {
+                                this.loadObjects();
+                            }, 20000);
+
+                        }
+                        if ('error' in res.data) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: res.data.error, timer: 3000
+                            })
+                        }
+
+                    }).catch(error => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: error, timer: 3000
+
+                        })
+                    })
+                    {% endcomment %}
+                },
+                gotoWebsite(website) {
+                    window.open(website.target_website_url);
+                },
+                websiteDetail(website) {
+                    window.location.replace(`/panel/website/edit/${website.id}/`);
+                }
+            },
+            created() {
+                this.loadObjects();
+
+                setInterval(() => {
+                    this.loadObjects();
+                }, 1000 * 60);
+            }
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  django:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: securitygroups-django
+    volumes:
+      - .:/code
+    environment:
+      IS_DOCKER: "true"
+      REDIS_URL: "redis://redis:6379/0"
+    ports:
+      - "8000:8000"
+  redis:
+    restart: unless-stopped
+    image: redis:alpine
+    expose:
+      - 6379
+#  celery:
+#    restart: always
+#    build:
+#      context: .
+#    command: celery -A jobhunting worker -B -l INFO
+#    environment:
+#      REDIS_URL: "redis://redis:6379/0"
+#    volumes:
+#      - .:/code
+#    depends_on:
+#      - redis
+#      - django

@@ -1,0 +1,45 @@
+{% extends "designs/default.html" %}
+
+{% block title %}Security Groups Webstack{% endblock %}
+
+{% block head %}
+
+    <style>
+        h1 {
+            color: #374551;
+        }
+
+        p {
+            align: center;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <a href="{% url "panel:index" %}" class="signin-link mt-5">
+        <div class="container mt-5 ">
+
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="mb-3 text-center">Security Groups Webstack</h1>
+                    {#                <img src="/lookandfeel/images/logo-white-background.svg" class="logo-frontpage ps-4 pr-4" alt=""/>#}
+                    <div class=" d-flex justify-content-center mt-5 ">
+
+
+                        <div class="signin-button">
+                            <p>Click to sign-in</p>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+    </a>
+{% endblock %}

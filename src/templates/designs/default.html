@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="/lookandfeel/bootstrap-5.2.1/css/bootstrap.min.css"/>
+    <style>
+        .logo-frontpage {
+            max-height: 120px;
+            width: 100%;
+        }
+
+        .signin-button {
+            padding-top: 30px;
+            background-color: rgba(58, 80, 99, 0.6);
+            max-width: 500px;
+            padding-bottom: 20px;
+            color: #fff;
+            width: 100% !important;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 23px !important;
+        }
+
+
+        a, a:link {
+            text-decoration: none;
+        }
+
+
+        @media only screen and (max-width: 320px) {
+            .signin-button {
+                font-size: 14px !important;
+            }
+
+        }
+
+    </style>
+
+    {% block head %}
+    {% endblock %}
+
+
+</head>
+
+<body{% block body %}{% endblock %}>
+
+
+{% block content %}
+{% endblock %}
+
+
+<script src="/lookandfeel/bootstrap-5.2.1/js/bootstrap.bundle.js"></script>
+
+<script defer src="/lookandfeel/fontawesome-free-6.2.0/js/all.min.js"></script>
+
+
+
+{% block postflight %}
+
+
+{% endblock %}
+
+</body>
+</html>
