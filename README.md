@@ -79,7 +79,7 @@ The Security Groups Webstack has a default DockerFile which will run with Docker
 
 ### Django settings that can be overwritten
 
-These settings are stored at the ``.env`` file and can be overwriten at the default Django settings at ```jobhunting/settings_customized.py``` which should be created on first run.
+These settings are stored at the ``.env`` file and can be overwriten at the default Django settings at ```securitygroups/settings_customized.py``` which should be created on first run.
 
 | **Varaiable** | **Description**                                                  | **Defaults**                           |
 | ------------- |------------------------------------------------------------------|----------------------------------------|
@@ -96,6 +96,16 @@ These settings are stored at the ``.env`` file and can be overwriten at the defa
 [//]: # (| ``SLACK_TOKEN`` | Slack Team Token                                                            |                                                                                      |)
 
 [//]: # (| ``SLACK_ROOM`` | Room to show the error Slack message.                                       | ``#general``                                                                                                           |)
+
+### Optional Access Key and Secret settings that can be added
+
+These settings can be overwriten at the default Django settings at ```securitygroups/settings_customized.py``` which should be created on first run.
+
+| **Varaiable** | **Description**                                                   | **Defaults** |
+| ------------- |-------------------------------------------------------------------|--------------|
+| ``AWS_SECURITY_GROUP_KEY_ID`` | **Access ID** of IAM user which has access to the Security Group  |   ``-``           |
+| ``AWS_SECURITY_GROUP_ACCESS_KEY``          | **Access Key** of IAM user which has access to the Security Group | ``-``        |
+
 
 ---
 ## Special notes on deployment
