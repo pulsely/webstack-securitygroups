@@ -83,9 +83,9 @@ SETTINGS_CUSTOMIZED_DEFAULT = '''
 # SERVER_EMAIL = ""
 # SES_SENDER_EMAIL = ""
 
-#### If you have AWS profile, there is no need to setup the Access Key and Secrets
-#AWS_ACCESS_KEY_ID = 'YOUR-ACCESS-KEY-ID'
-#AWS_SECRET_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
+#### If you have setup your AWS IAM profile, there is no need to setup the Access Key and Secrets for the Security Group
+#AWS_SECURITY_GROUP_KEY_ID = 'YOUR-ACCESS-KEY-ID'
+#AWS_SECURITY_GROUP_ACCESS_KEY = 'YOUR-SECRET-ACCESS-KEY'
 '''
 
 def check_and_create_settings_customized():
