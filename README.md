@@ -1,6 +1,8 @@
 
 # Security Groups Webstack by Pulsely
 
+![Security Groups Webstack Screenshot](https://pulsely.github.io/products/webstack-securitygroups/images/screenshot.png)
+
 __Security Groups Webstack__ is a Django powered webstack solution developed by [Pulsely](https://www.pulsely.com/). 
 __Security Groups Webstack__ let you control the access of a specific Security Group in an Amazon Web Services Virtual Private Network.
 
