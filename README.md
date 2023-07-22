@@ -17,12 +17,12 @@ You can run the Security Groups Webstack directly with a Python virtual environm
 The best way would be to create a new Python virtual environment. Any Python with version 3.9 should work.
 The only dependency would be an active Redis 4.0+ installation.
 
-* Pull the source code of Job Hunting Webstack:
+* Pull the source code of Security Groups Webstack:
   ```sh
   git clone https://github.com/pulsely/webstack-securitygroups
   ```
 
-* Changed to the directory of the Job Hunting Webstack:
+* Changed to the directory of the Security Groups Webstack:
   ```sh
   cd webstack-securitygroups
   ```
@@ -136,7 +136,7 @@ changepassword
 
 ```python manage.py changepassword``` let you change password for any user in the system.
 
-These Job Hunting Webstack commands are available for testing and house cleaning.
+These Security Groups Webstack commands are available for testing and house cleaning.
 ```
 mail_test
 reset
@@ -144,14 +144,14 @@ reset
 
 ```python manage.py mail_test``` can be used for sending test e-mail(s) to check your notification configurations.
 
-```python manage.py reset``` will remove the .env, db.sqlite3, celerybeat-schedule and jobhunting/settings_customized.py configuration files to reset your installation.   
+```python manage.py reset``` will remove the .env, db.sqlite3, celerybeat-schedule and securitygroups/settings_customized.py configuration files to reset your installation.   
 **(Only available for DEBUG mode on.)**
 
 ---
 
 ## Running databases other than SQLite?
 
-You can use any databases supported by Django. Create the database settings at the jobhunting/settings.py file following the Django documentations, and you should be good to go.
+You can use any databases supported by Django. Create the database settings at the securitygroups/settings.py file following the Django documentations, and you should be good to go.
 
 ---
 
