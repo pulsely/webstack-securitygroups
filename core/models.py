@@ -17,7 +17,7 @@ class User(AbstractUser):
         (ROLE_ADMIN, 'Admin'),
     )
 
-    # Set the default role to job seeker, in case a mistake is made!
+    # Set the default role to user, in case a mistake is made!
     role = models.CharField(max_length=20, choices=ROLES_CHOICES, default=ROLE_USER)
 
     AUTH_TYPE = (
@@ -25,7 +25,7 @@ class User(AbstractUser):
         #('firebase', 'Firebase'),
     )
     auth_type = models.CharField(max_length=20, choices=AUTH_TYPE, default='system')
-    flag_email_confirmed = models.BooleanField( default=False, help_text="Only users with e-mail confirmed can submit job application and employer features" )
+    flag_email_confirmed = models.BooleanField( default=False, help_text="Flag to denote if e-mail is confirmed" )
 
     def role_is_staff(self):
         return self.is_staff or self.role == ROLE_ADMIN
